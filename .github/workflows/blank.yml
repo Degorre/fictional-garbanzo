@@ -1,5 +1,21 @@
 # This is a basic workflow to help you get started with Actions
-
+- nom : Cache
+  utilise : actions/cache@v3.3.2
+  avec:
+    # Une liste de fichiers, répertoires et modèles génériques à mettre en cache et à restaurer
+    chemin:
+    # Une clé explicite pour restaurer et sauvegarder le cache
+    clé:
+    # Une liste ordonnée de clés à utiliser pour restaurer le cache obsolète si aucun accès au cache ne s'est produit pour la clé. Notez que `cache-hit` renvoie false dans ce cas.
+    clés de restauration : # facultatif
+    # La taille du bloc utilisée pour diviser les gros fichiers lors du téléchargement, en octets
+    upload-chunk-size : # facultatif
+    # Un booléen facultatif lorsqu'il est activé, permet aux exécuteurs Windows de sauvegarder ou de restaurer les caches qui peuvent être restaurés ou enregistrés respectivement sur d'autres plates-formes
+    activateCrossOsArchive : # facultatif, la valeur par défaut est false
+    # Échec du workflow si l'entrée du cache n'est pas trouvée
+    fail-on-cache-miss : # facultatif, la valeur par défaut est false
+    # Vérifiez si une entrée de cache existe pour la ou les entrées données (clé, clés de restauration) sans télécharger le cache
+    recherche uniquement : # facultatif, la valeur par défaut est false
 name: CI
 
 # Controls when the workflow will run
@@ -19,7 +35,24 @@ jobs:
   build:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
+- nom : Télécharger un artefact de construction
+  utilise : actions/upload-artifact@v3.1.3
+  avec:
+    # Nom de l'artefact
+    name : # facultatif, la valeur par défaut est l'artefact
+    # Un fichier, un répertoire ou un modèle générique qui décrit ce qu'il faut télécharger
+    chemin:
+    # Le comportement souhaité si aucun fichier n'est trouvé en utilisant le chemin fourni.
+Options disponibles:
+  warn : génère un avertissement mais n'échoue pas l'action
+  erreur : échec de l'action avec un message d'erreur
+  ignorer : ne génère aucun avertissement ou erreur, l'action n'échoue pas
 
+    if-no-files-found : # facultatif, la valeur par défaut est warn
+    # Durée après laquelle l'artefact expirera en jours. 0 signifie utiliser la rétention par défaut.
+Minimum 1 jour. Maximum 90 jours, sauf modification depuis la page des paramètres du référentiel.
+
+    jours de rétention : # facultatif
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
